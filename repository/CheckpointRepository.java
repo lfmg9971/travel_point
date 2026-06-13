@@ -8,7 +8,7 @@ import java.util.List;
 public class CheckpointRepository {
     private String url = "jdbc:mysql://localhost:3306/travelpoint_db";
     private String user = "root";
-    private String pass = "tu_contraseña"; // Cambia esto por tu clave de MySQL
+    private String pass = ""; // Cambia esto por tu clave de MySQL
 
     public void insertar(Checkpoint cp) throws SQLException {
         String sql = "INSERT INTO checkpoints (lugar, vehiculo, observaciones) VALUES (?, ?, ?)";
