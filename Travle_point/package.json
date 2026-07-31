@@ -1,0 +1,15 @@
+{
+  "name": "travle_point",
+  "version": "1.0.0",
+  "description": "API Travel Point",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
