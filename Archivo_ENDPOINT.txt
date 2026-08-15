@@ -1,0 +1,50 @@
+======================================================================
+PROYECTO: TRAVEL POINT - DOCUMENTACIÓN DE ENDPOINTS (API REST)
+======================================================================
+Base URL: http://localhost:8080
+
+----------------------------------------------------------------------
+1. GESTIÓN DE USUARIOS / PERFIL
+----------------------------------------------------------------------
+* Registrar Usuario
+  - Método: POST
+  - Endpoint: /api/usuarios/registrar
+  - Descripción: Registra un nuevo usuario en la plataforma.
+  - Body (JSON Ejemplo):
+    {
+      "nombre": "Luis Fernando",
+      "email": "luis@example.com",
+      "password": "tu_password"
+    }
+
+* Obtener Usuario por ID
+  - Método: GET
+  - Endpoint: /api/usuarios/{id}
+  - Descripción: Retorna la información de un usuario específico.
+
+----------------------------------------------------------------------
+2. GESTIÓN DE CHECKPOINTS / PUNTOS DE VIAJE (TRAVEL POINT)
+----------------------------------------------------------------------
+* Listar Todos los Checkpoints
+  - Método: GET
+  - Endpoint: /api/viajes
+  - Descripción: Devuelve la lista de todos los puntos de reaparición/viaje registrados.
+
+* Crear Nuevo Checkpoint
+  - Método: POST
+  - Endpoint: /api/viajes
+  - Descripción: Agrega un nuevo punto de parada o destino al mapa.
+  - Body (JSON Ejemplo):
+  {
+    "nombre": "Mirador de Cundinamarca",
+    "descripcion": "Punto de control principal en la ruta.",
+    "lugar": "Cundinamarca",
+    "coordenadas": "4.6097° N, 74.0817° W",
+    "latitud": "4.6097",
+    "longitud": "-74.0817"
+  }
+
+* Eliminar Checkpoint
+  - Método: DELETE
+  - Endpoint: /api/viajes/{id}
+  - Descripción: Borra un checkpoint existente del sistema.

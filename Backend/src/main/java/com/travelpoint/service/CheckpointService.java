@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+
 /**
  * Servicio que contiene la lógica de negocio para los puntos de viaje.
  * Aplica el patrón de diseño por capas aislando la lógica de base de datos del controlador.
@@ -31,5 +32,18 @@ public class CheckpointService {
      */
     public List<Checkpoint> obtenerTodos() {
         return repository.findAll();
+    }
+
+    /**
+     * Elimina un punto de control por su ID.
+     * @param id Identificador único del viaje.
+     * @return true si existía y fue borrado, false en caso contrario.
+     */
+    public boolean eliminarPunto(Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
