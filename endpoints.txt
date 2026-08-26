@@ -1,0 +1,31 @@
+\Registrar un usuario nuevo:
+
+    http://localhost:3000/api/registro
+
+    {
+        "usuario" : "Usuario1" ,
+        "contrasena" : "123"
+    }
+
+Iniciar sesión con el usuario creado:
+
+   http://localhost:3000/api/login
+
+    {
+        "usuario" : "Usuario1"
+        "contrasena" : "123"
+    }
+
+Registrar un punto de control
+
+    http://localhost:3000/api/viajes
+
+    {
+        "lugar": "Páramo de Sumapaz",
+        "descripcion": "Rodada de prueba y verificación de ruta",
+        "coordenadas": "4.2431° N, 74.3312° W"
+    }
+
+Consultar el listado de todos los viajes
+
+    http://localhost:3000/api/viajes
