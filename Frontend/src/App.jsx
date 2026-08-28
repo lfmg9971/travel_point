@@ -20,7 +20,7 @@ function App() {
   useEffect(() => {
     let activo = true;
 
-    fetch('http://localhost:8000/checkpoints.php')
+    fetch('http://192.168.1.80:8000/checkpoints.php')
       .then(res => {
         if (!res.ok) throw new Error('Error al conectar con el servidor PHP');
         return res.json();
@@ -45,7 +45,7 @@ function App() {
 
   // Función para refrescar la lista manualmente después de crear un registro
   const actualizarLista = () => {
-    fetch('http://localhost:8000/checkpoints.php')
+    fetch('http://192.168.1.80:8000/checkpoints.php')
       .then(res => res.json())
       .then(data => setCheckpoints(data))
       .catch(err => console.error("Error actualizando lista:", err));
@@ -57,7 +57,7 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('http://localhost:8000/checkpoints.php', {
+    fetch('http://192.168.1.80:8000/checkpoints.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
