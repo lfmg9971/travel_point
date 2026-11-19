@@ -1,29 +1,55 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Platform, ActivityIndicator } from 'react-native';
 import { registerUser } from '../services/api';
 
 export default function RegisterScreen({ navigation }) {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
     if (!nombre || !email || !password) {
-      Alert.alert('Error', 'Por favor completa todos los campos');
+      if (Platform.OS === 'web') {
+        window.alert('Por favor completa todos los campos');
+      } else {
+        Alert.alert('Error', 'Por favor completa todos los campos');
+      }
       return;
     }
 
+    setLoading(true);
+
     try {
-      const res = await registerUser({ nombre, email, password });
+      // CORRECCIÓN: Se envían los 3 parámetros sueltos como los recibe registrarUser en api.js
+      const res = await registerUser(nombre, email, password);
+      console.log("Respuesta de registro:", res);
       
-      if (res.mensaje) {
-        Alert.alert('¡Éxito!', res.mensaje);
+      if (res && (res.mensaje || res.estado === 'success')) {
+        const mensajeExito = res.mensaje || '¡Cuenta creada correctamente!';
+        if (Platform.OS === 'web') {
+          window.alert(mensajeExito);
+        } else {
+          Alert.alert('¡Éxito!', mensajeExito);
+        }
         navigation.navigate('Login');
       } else {
-        Alert.alert('Error', res.error || 'No se pudo crear la cuenta');
+        const mensajeError = res.error || 'No se pudo crear la cuenta';
+        if (Platform.OS === 'web') {
+          window.alert(mensajeError);
+        } else {
+          Alert.alert('Error', mensajeError);
+        }
       }
     } catch (error) {
-      Alert.alert('Error', 'No se pudo conectar con el servidor');
+      console.error("Error en registro:", error);
+      if (Platform.OS === 'web') {
+        window.alert('No se pudo conectar con el servidor');
+      } else {
+        Alert.alert('Error', 'No se pudo conectar con el servidor');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,8 +79,12 @@ export default function RegisterScreen({ navigation }) {
         onChangeText={setPassword}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Registrarse</Text>
+      <TouchableOpacity style={styles.button} onPress={handleRegister} disabled={loading}>
+        {loading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text style={styles.buttonText}>Registrarse</Text>
+        )}
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>

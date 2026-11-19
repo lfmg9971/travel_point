@@ -1,61 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, RefreshControl } from 'react-native';
-import { getCheckpoints } from '../services/api';
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-export default function HomeScreen() {
-  const [checkpoints, setCheckpoints] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-
-  const fetchPuntos = async () => {
-    try {
-      const data = await getCheckpoints();
-      setCheckpoints(data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchPuntos();
-  }, []);
-
-  const onRefresh = () => {
-    setRefreshing(true);
-    fetchPuntos();
-  };
-
+export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Mis Puntos de Control</Text>
-      {loading ? (
-        <ActivityIndicator size="large" color="#3498db" />
-      ) : (
-        <FlatList
-          data={checkpoints}
-          keyExtractor={(item) => item.id.toString()}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-          renderItem={({ item }) => (
-            <View style={styles.card}>
-              <Text style={styles.cardTitle}>{item.nombre}</Text>
-              <Text style={styles.cardDesc}>{item.descripcion}</Text>
-              <Text style={styles.cardLocation}>Lugar: {item.lugar}</Text>
-            </View>
-          )}
-        />
-      )}
+      <Text style={styles.welcomeTitle}>Travel Point</Text>
+      <Text style={styles.subtitle}>Selecciona una opción para continuar</Text>
+
+      {/* Botón: Nuevo Viaje */}
+      <TouchableOpacity 
+        style={styles.primaryButton} 
+        onPress={() => navigation.navigate('NuevoViaje')}
+      >
+        <Text style={styles.buttonText}>+ Nuevo viaje</Text>
+      </TouchableOpacity>
+
+      {/* Botón: Mis Viajes */}
+      <TouchableOpacity 
+        style={styles.secondaryButton} 
+        onPress={() => navigation.navigate('MisViajes')}
+      >
+        <Text style={styles.buttonText}>🗺️ Mis viajes</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#f4f6f8' },
-  header: { fontSize: 22, fontWeight: 'bold', marginBottom: 20, color: '#2c3e50' },
-  card: { backgroundColor: '#fff', padding: 15, borderRadius: 8, marginBottom: 12, elevation: 2 },
-  cardTitle: { fontSize: 18, fontWeight: 'bold', color: '#2c3e50' },
-  cardDesc: { color: '#7f8c8d', marginVertical: 4 },
-  cardLocation: { fontSize: 12, color: '#3498db', fontWeight: 'bold' }
+  container: { 
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    padding: 20, 
+    backgroundColor: '#f5f5f5' 
+  },
+  welcomeTitle: { 
+    fontSize: 32, 
+    fontWeight: 'bold', 
+    marginBottom: 8, 
+    color: '#2c3e50',
+    textAlign: 'center'
+  },
+  subtitle: { 
+    fontSize: 16, 
+    color: '#7f8c8d', 
+    marginBottom: 40,
+    textAlign: 'center'
+  },
+  primaryButton: { 
+    backgroundColor: '#3498db', 
+    paddingVertical: 16, 
+    borderRadius: 10, 
+    width: '85%', 
+    alignItems: 'center', 
+    marginBottom: 20,
+    elevation: 3
+  },
+  secondaryButton: { 
+    backgroundColor: '#2ecc71', 
+    paddingVertical: 16, 
+    borderRadius: 10, 
+    width: '85%', 
+    alignItems: 'center',
+    elevation: 3
+  },
+  buttonText: { 
+    color: '#fff', 
+    fontWeight: 'bold', 
+    fontSize: 18 
+  }
 });

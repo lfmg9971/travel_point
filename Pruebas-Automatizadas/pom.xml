@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2000/svg"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.travelpoint.testing</groupId>
+    <artifactId>TravelPointAutomation</artifactId>
+    <version>1.0.0</version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <serenity.version>3.6.12</serenity.version>
+        <serenity.cucumber.version>3.6.12</serenity.cucumber.version>
+    </properties>
+    <dependencies>
+        <!-- Serenity BDD Core -->
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-core</artifactId>
+            <version>${serenity.version}</version>
+        </dependency>
+        <!-- Serenity Cucumber Integration -->
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-cucumber</artifactId>
+            <version>${serenity.cucumber.version}</version>
+        </dependency>
+        <!-- JUnit for Execution -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

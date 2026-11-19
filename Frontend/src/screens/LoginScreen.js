@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Platform } from 'react-native';
 import { loginUser } from '../services/api';
 
 export default function LoginScreen({ navigation }) {
@@ -8,19 +8,41 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert('Error', 'Por favor ingresa usuario y contraseña');
+      if (Platform.OS === 'web') {
+        window.alert('Por favor ingresa usuario y contraseña');
+      } else {
+        Alert.alert('Error', 'Por favor ingresa usuario y contraseña');
+      }
       return;
     }
 
     try {
       const response = await loginUser(email, password);
-      if (response.status === 'success' || response.success) {
+      console.log("Respuesta del servidor:", response);
+
+      // Validamos si la respuesta contiene estado: 'success'
+      if (response && (response.estado === 'success' || response.mensaje)) {
+        // Guardamos la sesión en el navegador para evitar que se pierda al actualizar
+        if (Platform.OS === 'web') {
+          localStorage.setItem('usuarioLogueado', JSON.stringify(response));
+        }
+
         navigation.replace('Home');
       } else {
-        Alert.alert('Error de acceso', response.message || 'Credenciales incorrectas');
+        const mensajeError = response?.mensaje || response?.error || 'Credenciales incorrectas';
+        if (Platform.OS === 'web') {
+          window.alert(mensajeError);
+        } else {
+          Alert.alert('Error de acceso', mensajeError);
+        }
       }
     } catch (error) {
-      Alert.alert('Error de conexión', 'No se pudo conectar con el servidor PHP. Revisa que XAMPP esté activo y que el teléfono esté en la misma red Wi-Fi.');
+      console.log("Error detallado:", error);
+      if (Platform.OS === 'web') {
+        window.alert('No se pudo conectar con el servidor.');
+      } else {
+        Alert.alert('Error de conexión', 'No se pudo conectar con el servidor.');
+      }
     }
   };
 
